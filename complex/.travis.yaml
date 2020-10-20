@@ -8,6 +8,11 @@ before_install:
   - gcloud components update kubectl
   - gcloud auth activate-service-account --key-file service-account.json
   - gcloud config set project multi-k8s-292804
-  - gcloud config set compute/zone us-central1-a???
-  - gcloud container clusters get-credentials multi-cluster???
+  - gcloud config set compute/zone us-central1-a
+  - gcloud container clusters get-credentials multi-cluster
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t slneo/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true slneo/react-test npm test
 

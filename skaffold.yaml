@@ -1,0 +1,19 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+    - image: slneo/multi-client
+      context: complex/client
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        '**/*.js': .
+        '**/*.css': .
+        '**/*.html': .
+deploy:
+  kubectl:
+    manifests:
+      - complex/k8s/client-deployment.yaml
+

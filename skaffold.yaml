@@ -12,8 +12,25 @@ build:
         '**/*.js': .
         '**/*.css': .
         '**/*.html': .
+    - image: slneo/multi-server
+      context: complex/server
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        '**/*.js': .
+        '**/*.css': .
+        '**/*.html': .
+    - image: slneo/multi-worker
+      context: complex/worker
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        '**/*.js': .
+        '**/*.css': .
+        '**/*.html': .
 deploy:
   kubectl:
     manifests:
       - complex/k8s/client-deployment.yaml
-
+      - complex/k8s/server-deployment.yaml
+      - complex/k8s/worker-deployment.yaml
